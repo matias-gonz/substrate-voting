@@ -42,6 +42,9 @@
 // Re-export pallet items so that they can be accessed from the crate namespace.
 pub use pallet::*;
 
+pub mod weights;
+pub use weights::*;
+
 // All pallet logic is defined in its own module and must be annotated by the `pallet` attribute.
 #[frame_support::pallet]
 pub mod pallet {
