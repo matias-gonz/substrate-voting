@@ -139,9 +139,14 @@ pub mod pallet {
 	impl<T: Config> Pallet<T> {
 		#[pallet::call_index(0)]
 		#[pallet::weight(T::WeightInfo::do_something())]
-		pub fn do_something(origin: OriginFor<T>, _something: u32) -> DispatchResult {
-			// Check that the extrinsic was signed and get the signer.
-			let _who = ensure_signed(origin)?;
+		pub fn vote(origin: OriginFor<T>, candidate: u32) -> DispatchResult {
+			let who = ensure_signed(origin)?;
+
+			ensure!(!HasVoted::<T>::contains_key(&who), "You have already voted");
+			
+			let votes = CandidateVotes::<T>::get(candidate);
+			CandidateVotes::<T>::insert(candidate, votes + 1);
+			HasVoted::<T>::insert(&who, true);
 
 			Ok(())
 		}
