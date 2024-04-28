@@ -42,14 +42,6 @@
 // Re-export pallet items so that they can be accessed from the crate namespace.
 pub use pallet::*;
 
-// Every callable function or "dispatchable" a pallet exposes must have weight values that correctly
-// estimate a dispatchable's execution time. The benchmarking module is used to calculate weights
-// for each dispatchable and generates this pallet's weight.rs file. Learn more about benchmarking here: https://docs.substrate.io/test/benchmark/
-#[cfg(feature = "runtime-benchmarks")]
-mod benchmarking;
-pub mod weights;
-pub use weights::*;
-
 // All pallet logic is defined in its own module and must be annotated by the `pallet` attribute.
 #[frame_support::pallet]
 pub mod pallet {
