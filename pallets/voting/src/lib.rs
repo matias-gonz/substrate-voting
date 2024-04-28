@@ -138,7 +138,7 @@ pub mod pallet {
 	#[pallet::call]
 	impl<T: Config> Pallet<T> {
 		#[pallet::call_index(0)]
-		#[pallet::weight(T::WeightInfo::do_something())]
+		#[pallet::weight(T::WeightInfo::vote())]
 		pub fn vote(origin: OriginFor<T>, candidate: u32) -> DispatchResult {
 			let who = ensure_signed(origin)?;
 
