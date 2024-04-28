@@ -1,5 +1,7 @@
 # substrate-voting
 
+[![Check Set-Up & Build](https://github.com/matias-gonz/substrate-voting/actions/workflows/check.yml/badge.svg)](https://github.com/matias-gonz/substrate-voting/actions/workflows/check.yml)
+
 This is a substrate proof of concept that includes a custom voting pallet. The voting pallet allows users to cast votes for candidates and retrieve voting results.
 
 ## Usage
