@@ -99,10 +99,8 @@ pub mod pallet {
 	#[pallet::generate_deposit(pub(super) fn deposit_event)]
 	pub enum Event<T: Config> {
 		/// A user has successfully set a new value.
-		SomethingStored {
-			/// The new value set.
-			something: u32,
-			/// The account who set the new value.
+		SomeoneVoted {
+			candidate: u32,
 			who: T::AccountId,
 		},
 	}
@@ -147,6 +145,7 @@ pub mod pallet {
 			let votes = CandidateVotes::<T>::get(candidate);
 			CandidateVotes::<T>::insert(candidate, votes + 1);
 			HasVoted::<T>::insert(&who, true);
+			Self::deposit_event(Event::<T>::SomeoneVoted { candidate, who });
 
 			Ok(())
 		}
