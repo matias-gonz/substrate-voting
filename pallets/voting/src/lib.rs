@@ -74,6 +74,7 @@ pub mod pallet {
 		type RuntimeEvent: From<Event<Self>> + IsType<<Self as frame_system::Config>::RuntimeEvent>;
 		/// A type representing the weights required by the dispatchables of this pallet.
 		type WeightInfo: WeightInfo;
+		const MAX_CANDIDATES: u32 = 10;
 	}
 
 	#[pallet::storage]
@@ -119,9 +120,10 @@ pub mod pallet {
 		NoneValue,
 		/// There was an attempt to increment the value in storage over `u32::MAX`.
 		StorageOverflow,
-
 		/// The user has already voted
 		AlreadyVoted,
+		/// The candidate does not exist
+		CandidateDoesNotExist,
 	}
 
 	/// The pallet's dispatchable functions ([`Call`]s).
@@ -144,6 +146,7 @@ pub mod pallet {
 			let who = ensure_signed(origin)?;
 
 			ensure!(!HasVoted::<T>::contains_key(&who), Error::<T>::AlreadyVoted);
+			ensure!(candidate < T::MAX_CANDIDATES, Error::<T>::CandidateDoesNotExist);
 			
 			let votes = CandidateVotes::<T>::get(candidate);
 			CandidateVotes::<T>::insert(candidate, votes + 1);
