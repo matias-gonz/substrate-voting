@@ -119,6 +119,9 @@ pub mod pallet {
 		NoneValue,
 		/// There was an attempt to increment the value in storage over `u32::MAX`.
 		StorageOverflow,
+
+		/// The user has already voted
+		AlreadyVoted,
 	}
 
 	/// The pallet's dispatchable functions ([`Call`]s).
@@ -140,7 +143,7 @@ pub mod pallet {
 		pub fn vote(origin: OriginFor<T>, candidate: u32) -> DispatchResult {
 			let who = ensure_signed(origin)?;
 
-			ensure!(!HasVoted::<T>::contains_key(&who), "You have already voted");
+			ensure!(!HasVoted::<T>::contains_key(&who), Error::<T>::AlreadyVoted);
 			
 			let votes = CandidateVotes::<T>::get(candidate);
 			CandidateVotes::<T>::insert(candidate, votes + 1);
